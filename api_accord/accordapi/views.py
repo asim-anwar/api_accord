@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from django.http import Http404
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
+from rest_framework import status, filters, generics
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
@@ -115,20 +115,30 @@ class createPost(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class SearchLobby(generics.ListCreateAPIView):
+
+        # serializer = LobbySerializer(data=request.data)
+        search_fields = ['description','name','host_id__username','topic_id__name']
+        filter_backends = (filters.SearchFilter,)
+        # if serializer.is_valid():
+        queryset = Lobby.objects.all()
+        serializer_class = LobbySerializer
+
+
 
 
 # @csrf_exempt
-class Userlogin(APIView):
-    permission_classes = (AllowAny,)
-
-    def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        print(serializer.is_valid())
-        if serializer.is_valid():
-            print('aaaaaa')
-            user = User.objects.get(usernamee=request.data['username'])
-            return Response('Logged In', status=status.HTTP_200_OK)
-        return Response( 'Failed', status=status.HTTP_400_BAD_REQUEST)
+# class Userlogin(APIView):
+#     permission_classes = (AllowAny,)
+#
+#     def post(self, request):
+#         serializer = LoginSerializer(data=request.data)
+#         print(serializer.is_valid())
+#         if serializer.is_valid():
+#             print('aaaaaa')
+#             user = User.objects.get(usernamee=request.data['username'])
+#             return Response('Logged In', status=status.HTTP_200_OK)
+#         return Response( 'Failed', status=status.HTTP_400_BAD_REQUEST)
 
 
     # def get(self, request):
