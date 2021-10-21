@@ -4,7 +4,7 @@ from rest_framework.serializers import ModelSerializer
 # from models import Lobby, User
 # from accordapi.models import Lobby, User
 # from api_accord.accordapi.models import User
-from accordapi.models import *
+from .models import *
 
 
 class LobbySerializer(ModelSerializer):
@@ -19,13 +19,10 @@ class PostSerializer(ModelSerializer):
         fields = '__all__'
 
 
-
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        # fields = '__all__'
-        exclude = ['password']
-
+        fields = ['username', 'password']
 
 
 class LoginSerializer(ModelSerializer):

@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from accordapi.models import *
+from .models import *
 from rest_framework.views import APIView
 
 from .serializers import *
@@ -61,8 +61,16 @@ class getLobby(APIView):
 # def getUsers(request):
 #     users = User.objects.all()
 #     serializer = UserSerializer(users, many=True)
-#     return Response(serializer.data)
+#     return Response(serializer
+class createUser(APIView):
+    permission_classes = (AllowAny,)
 
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class getUsers(APIView):
@@ -110,12 +118,17 @@ class createPost(APIView):
 
 
 # @csrf_exempt
-class Userlogin(RetrieveAPIView):
+class Userlogin(APIView):
     permission_classes = (AllowAny,)
-    serializer_class = LoginSerializer
 
-    def get_object(self):
-        return self.request.user
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        print(serializer.is_valid())
+        if serializer.is_valid():
+            print('aaaaaa')
+            user = User.objects.get(usernamee=request.data['username'])
+            return Response('Logged In', status=status.HTTP_200_OK)
+        return Response( 'Failed', status=status.HTTP_400_BAD_REQUEST)
 
 
     # def get(self, request):

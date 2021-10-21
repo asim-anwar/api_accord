@@ -7,7 +7,7 @@ from rest_framework.routers import DefaultRouter
 from .views import *
 
 urlpatterns = [
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 
@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/users/', views.getUsers.as_view()),
     path('api/users/<str:pk>/', views.getUser.as_view()),
     path('api/lobbys/<str:pk>/', views.getLobby.as_view()),
+    path('api/createuser/', createUser.as_view()),
     # path('api/lobbys/post/', csrf_exempt(createPost.as_view())),
     path('api/createPost/', createPost.as_view()),
     # path('api/login/', Userlogin.as_view(), ),
