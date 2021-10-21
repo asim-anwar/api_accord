@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/users/', views.getUsers.as_view()),
     path('api/users/<str:pk>/', views.getUser.as_view()),
     path('api/lobbys/<str:pk>/', views.getLobby.as_view()),
+    path('api/searchlobby/', SearchLobby.as_view()),
     path('api/createuser/', createUser.as_view()),
     # path('api/lobbys/post/', csrf_exempt(createPost.as_view())),
     path('api/createPost/', createPost.as_view()),
